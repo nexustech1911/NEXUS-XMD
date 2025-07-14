@@ -44,9 +44,7 @@ module.exports = {
   ANTI_VV: process.env.ANTI_VV || "true",
   ANTI_DEL_PATH: process.env.ANTI_DEL_PATH || "log",
   AUTO_RECORDING: process.env.AUTO_RECORDING || "false",
-
-  // ✅ GROQ CHATBOT SETTINGS (NEW)
-  CHATBOT_MODE: process.env.CHATBOT_MODE || "true", // Turn chatbot on/off
+  CHATBOT_MODE: process.env.CHATBOT_MODE || "true", 
   GROQ_API_KEY: process.env.GROQ_API_KEY || "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",       // Add your Groq API Key here
-  GROQ_MODEL: process.env.GROQ_MODEL || "mixtral-8x7b-32768" // Default model from Groq
+  GROQ_MODEL: process.env.GROQ_MODEL || "mixtral-8x7b-32768" // 
 };
