@@ -33,6 +33,7 @@ const {
   const qrcode = require('qrcode-terminal')
   const StickersTypes = require('wa-sticker-formatter')
   const util = require('util')
+  const { askAI } = require("./lib/chatgpt"); 
   const AntiCall = require('./lib/anticall');
   const { sms, downloadMediaMessage, AntiDelete } = require('./lib')
   const FileType = require('file-type');
