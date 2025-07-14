@@ -1,30 +1,27 @@
 const { cmd } = require('../command');
-const chatbot = require('../lib/chatbot-db');
+const config = require('../config');
+const fs = require('fs');
 
 cmd({
-  pattern: "chatbot",
-  alias: ["cb"],
-  desc: "Turn on/off chatbot in private chat",
-  category: "AI",
-  use: "chatbot on / chatbot off",
-  react: "🤖",
-  fromMe: false,
-
-  async function(conn, m, mdata) {
-    const { args, reply, isGroup, sender } = mdata;
-
-    if (isGroup) return reply("❌ Chatbot can only be enabled in private chats.");
-
-    if (!args[0]) return reply("⚙️ Usage: .chatbot on / off");
-
-    if (args[0].toLowerCase() === "on") {
-      chatbot.setChatbot(sender, true);
-      reply("✅ Chatbot enabled.");
-    } else if (args[0].toLowerCase() === "off") {
-      chatbot.setChatbot(sender, false);
-      reply("🛑 Chatbot disabled.");
-    } else {
-      reply("⚙️ Usage: .chatbot on / off");
-    }
+  pattern: "chatbot ?(.*)",
+  desc: "Turn chatbot on or off",
+  category: "general",
+  use: ".chatbot on/off",
+  filename: __filename
+}, async (m, text, { quoted }) => {
+  if (!text || (text !== 'on' && text !== 'off')) {
+    return m.reply("⚙️ *Usage:* .chatbot on/off");
   }
+
+  let newValue = text === 'on' ? 'true' : 'false';
+
+  const envPath = './config.env';
+  const content = fs.readFileSync(envPath, 'utf8');
+  const updated = content.replace(/CHATBOT_MODE=.*/g, `CHATBOT_MODE=${newValue}`);
+  fs.writeFileSync(envPath, updated);
+
+  config.CHATBOT_MODE = newValue; // Update runtime config
+
+  return m.reply(`🤖 Chatbot has been turned *${text.toUpperCase()}* for private chats.`);
 });
+          
