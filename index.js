@@ -163,6 +163,35 @@ const port = process.env.PORT || 9090;
   if (config.READ_MESSAGE === 'true') {
     await conn.readMessages([mek.key]);  // Mark message as read
     console.log(`Marked message from ${mek.key.remoteJid} as read.`);
+const chatbot = require('./lib/chatbot-db');
+const fetch = require('node-fetch');
+
+if (!isGroup && !isCmd && chatbot.isChatbotOn(sender)) {
+  try {
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer " + config.GROQ_API_KEY,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama3-8b-8192", // or mixtral-8x7b
+        messages: [
+          { role: "system", content: "You are a helpful AI assistant called NEXUS-XMD." },
+          { role: "user", content: body }
+        ]
+      })
+    });
+
+    const data = await response.json();
+    const aiReply = data.choices?.[0]?.message?.content;
+    if (aiReply) reply(aiReply.trim());
+  } catch (err) {
+    console.error("Chatbot error:", err);
+    reply("❌ Chatbot error. Try again later.");
+  }
+}
+	  
   }
     if(mek.message.viewOnceMessageV2)
     mek.message = (getContentType(mek.message) === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
