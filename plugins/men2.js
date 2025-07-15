@@ -1,10 +1,8 @@
 const config = require('../config');
 const { cmd } = require('../command');
-const fs = require("fs");
-const path = require("path");
 
 cmd({
-  pattern: "menu3",
+  pattern: "menu5",
   alias: ["menu2", "help"],
   desc: "Interactive button menu",
   category: "menu",
@@ -18,7 +16,9 @@ async (conn, mek, m, {
   reply
 }) => {
   try {
-    const thumb = { url  "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/1d694055a8e0c692f5cdf56027b12741.jpg" }; // Replace with your own if needed
+    const thumb = {
+      url: "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/Nexus-xmd.jpg"
+    };
 
     const sections = [
       {
@@ -77,7 +77,7 @@ async (conn, mek, m, {
       }
     ];
 
-    const vcardMessage = {
+    const vcardMsg = {
       key: {
         fromMe: false,
         participant: "0@s.whatsapp.net",
@@ -86,13 +86,13 @@ async (conn, mek, m, {
       message: {
         contactMessage: {
           displayName: `${config.OWNER_NAME}`,
-          vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:${config.OWNER_NAME}\nORG:NEXUS-TECH;\nTEL;type=CELL;type=VOICE;waid=${config.OWNER_NUMBER}:${config.OWNER_NUMBER}\nEND:VCARD`
+          vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:${config.OWNER_NAME}\nORG:NEXUS-AI;\nTEL;type=CELL;type=VOICE;waid=${config.OWNER_NUMBER}:${config.OWNER_NUMBER}\nEND:VCARD`
         }
       }
     };
 
     const listMessage = {
-      text: `╭━━❮ *NEXUS-AI MENU* ❯━━⬣\n┃ Hello ${pushname || "there"}!\n┃ Choose a category to view commands.\n╰━━━━━━━━━━━━━━⬣`,
+      text: `╭━━❮ *NEXUS-AI MENU* ❯━━⬣\n┃ Hello ${pushname || "there"}!\n┃ Tap below to explore commands.\n╰━━━━━━━━━━━━━━⬣`,
       footer: `${config.FOOTER || 'NEXUS-AI BOT'}`,
       title: `☣️ NEXUS-AI COMMAND CENTER`,
       buttonText: "📖 Open Menu",
@@ -102,8 +102,8 @@ async (conn, mek, m, {
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
-          title: "🧠 Powered by NEXUS-AI",
-          body: "The Smartest WhatsApp AI Bot",
+          title: "NEXUS-AI",
+          body: "Best WhatsApp Bot",
           thumbnail: thumb,
           mediaType: 1,
           renderLargerThumbnail: true,
@@ -113,15 +113,15 @@ async (conn, mek, m, {
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363288304618280@newsletter',
           newsletterName: 'NEXUS-TECH',
-          serverMessageId: 133
+          serverMessageId: 143
         }
       }
     };
 
-    await conn.sendMessage(from, listMessage, { quoted: vcardMessage });
+    await conn.sendMessage(from, listMessage, { quoted: vcardMsg });
 
   } catch (err) {
     console.log(err);
-    reply("❌ Error showing menu.");
+    reply("❌ Menu command failed.");
   }
 });
