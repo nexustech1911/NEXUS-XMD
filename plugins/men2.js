@@ -2,7 +2,7 @@ const config = require('../config');
 const { cmd } = require('../command');
 
 cmd({
-  pattern: "menu2",
+  pattern: "menu5",
   alias: ["menu2", "help"],
   desc: "Show command menu",
   category: "menu",
