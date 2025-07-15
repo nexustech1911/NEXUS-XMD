@@ -18,7 +18,7 @@ async (conn, mek, m, {
   reply
 }) => {
   try {
-    const thumb = { url: "https://files.catbox.moe/z62ts0.jpg" }; // Replace with your own if needed
+    const thumb = { url  "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/1d694055a8e0c692f5cdf56027b12741.jpg" }; // Replace with your own if needed
 
     const sections = [
       {
