@@ -1,205 +1,81 @@
-const fetch = require('node-fetch');
-const config = require('../config');
 const { cmd } = require('../command');
+const axios = require('axios');
 
 cmd({
     pattern: "repo",
-    alias: ["sc", "script", "info"],
-    desc: "Fetch GitHub repository information",
-    react: "📂",
-    category: "info",
-    filename: __filename,
-},
+    alias: ["github"],
+    desc: "Show GitHub repository info",
+    category: "main",
+    use: '.repo',
+    react: "📦",
+    filename: __filename
+}, 
 async (conn, mek, m, { from, reply }) => {
-    const githubRepoURL = 'https://github.com/nexustech1911/NEXUS-XMD';
-
     try {
-        const [, username, repoName] = githubRepoURL.match(/github\.com\/([^/]+)\/([^/]+)/);
-        const response = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
-        
-        if (!response.ok) throw new Error(`GitHub API error: ${response.status}`);
-        const repoData = await response.json();
+        const apiUrl = 'https://api.github.com/repos/nexustech1911/NEXUS-XMD';
+        const { data } = await axios.get(apiUrl);
 
-        // Format 1: Classic Box
-        const style1 = `╭───『 ${config.BOT_NAME} REPO 』───⳹
-│
-│ 📦 *Repository*: ${repoData.name}
-│ 👑 *Owner*: ${repoData.owner.login}
-│ ⭐ *Stars*: ${repoData.stargazers_count}
-│ ⑂ *Forks*: ${repoData.forks_count}
-│ 🔗 *URL*: ${repoData.html_url}
-│
-│ 📝 *Description*:
-│ ${repoData.description || 'No description'}
-│
-╰────────────────⳹
-> ${config.DESCRIPTION}`;
+        const stars = data.stargazers_count;
+        const forks = data.forks_count;
+        const watchers = data.subscribers_count;
+        const html_url = data.html_url;
 
-        // Format 2: Minimalist
-        const style2 = `•——[ GITHUB INFO ]——•
-  │
-  ├─ 🏷️ ${repoData.name}
-  ├─ 👤 ${repoData.owner.login}
-  ├─ ✨ ${repoData.stargazers_count} Stars
-  ├─ ⑂ ${repoData.forks_count} Forks
-  │
-  •——[ ${config.BOT_NAME} ]——•
-  > ${config.DESCRIPTION}`;
+        const msg = `
+*🌐 NEXUS-XMD GITHUB REPO*
+┏━━━━━━━━━━━━━━━⬣
+┃ 👥 *Owner:* ${data.owner.login}
+┃ 🌟 *Stars:* ${stars}
+┃ 🍴 *Forks:* ${forks}
+┃ 👀 *Watchers:* ${watchers}
+┃ 🔗 *Repo:* ${html_url}
+┃ 
+┃ ⚙️ Deploy via:
+┃ 🔹 Heroku
+┃ 🔹 Render
+┃ 🔹 Railway
+┃ 🔹 Cpanel / VPS
+┗━━━━━━━━━━━━━━━⬣
+        `.trim();
 
-        // Format 3: Fancy Borders
-        const style3 = `▄▀▄▀▄ REPOSITORY INFO ▄▀▄▀▄
-
-  ♢ *Project*: ${repoData.name}
-  ♢ *Author*: ${repoData.owner.login}
-  ♢ *Stars*: ${repoData.stargazers_count} ✨
-  ♢ *Forks*: ${repoData.forks_count} ⑂
-  ♢ *Updated*: ${new Date(repoData.updated_at).toLocaleDateString()}
-  
-  🔗 ${repoData.html_url}
-  
-  > ${config.DESCRIPTION}`;
-
-        // Format 4: Code Style
-        const style4 = `┌──────────────────────┐
-│  ⚡ ${config.BOT_NAME} REPO  ⚡  │
-├──────────────────────┤
-│ • Name: ${repoData.name}
-│ • Owner: ${repoData.owner.login}
-│ • Stars: ${repoData.stargazers_count}
-│ • Forks: ${repoData.forks_count}
-│ • URL: ${repoData.html_url}
-│ • Desc: ${repoData.description || 'None'}
-└──────────────────────┘
-> ${config.DESCRIPTION}`;
-
-        // Format 5: Modern Blocks
-        const style5 = `▰▰▰▰▰ REPO INFO ▰▰▰▰▰
-
-  🏷️  *${repoData.name}*
-  👨‍💻  ${repoData.owner.login}
-  
-  ⭐ ${repoData.stargazers_count}  ⑂ ${repoData.forks_count}
-  🔗 ${repoData.html_url}
-  
-  📜 ${repoData.description || 'No description'}
-  
-  > ${config.DESCRIPTION}`;
-
-        // Format 6: Retro Terminal
-        const style6 = `╔══════════════════════╗
-║   ${config.BOT_NAME} REPO    ║
-╠══════════════════════╣
-║ > NAME: ${repoData.name}
-║ > OWNER: ${repoData.owner.login}
-║ > STARS: ${repoData.stargazers_count}
-║ > FORKS: ${repoData.forks_count}
-║ > URL: ${repoData.html_url}
-║ > DESC: ${repoData.description || 'None'}
-╚══════════════════════╝
-> ${config.DESCRIPTION}`;
-
-        // Format 7: Elegant
-        const style7 = `┌───────────────┐
-│  📂  REPO  │
-└───────────────┘
-│
-│ *Project*: ${repoData.name}
-│ *Author*: ${repoData.owner.login}
-│
-│ ✨ ${repoData.stargazers_count} Stars
-│ ⑂ ${repoData.forks_count} Forks
-│
-│ 🔗 ${repoData.html_url}
-│
-┌───────────────┐
-│  📝  DESC  │
-└───────────────┘
-${repoData.description || 'No description'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 8: Social Media Style
-        const style8 = `✦ ${config.BOT_NAME} Repository ✦
-
-📌 *${repoData.name}*
-👤 @${repoData.owner.login}
-
-⭐ ${repoData.stargazers_count} Stars | ⑂ ${repoData.forks_count} Forks
-🔄 Last updated: ${new Date(repoData.updated_at).toLocaleDateString()}
-
-🔗 GitHub: ${repoData.html_url}
-
-${repoData.description || 'No description available'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 9: Fancy List
-        const style9 = `╔♫═🎧═♫══════════╗
-   ${config.BOT_NAME} REPO
-╚♫═🎧═♫══════════╝
-
-•・゜゜・* ✧  *・゜゜・•
- ✧ *Name*: ${repoData.name}
- ✧ *Owner*: ${repoData.owner.login}
- ✧ *Stars*: ${repoData.stargazers_count}
- ✧ *Forks*: ${repoData.forks_count}
-•・゜゜・* ✧  *・゜゜・•
-
-🔗 ${repoData.html_url}
-
-${repoData.description || 'No description'}
-
-> ${config.DESCRIPTION}`;
-
-        // Format 10: Professional
-        const style10 = `┏━━━━━━━━━━━━━━━━━━┓
-┃  REPOSITORY REPORT  ┃
-┗━━━━━━━━━━━━━━━━━━┛
-
-◈ Project: ${repoData.name}
-◈ Maintainer: ${repoData.owner.login}
-◈ Popularity: ★ ${repoData.stargazers_count} | ⑂ ${repoData.forks_count}
-◈ Last Update: ${new Date(repoData.updated_at).toLocaleDateString()}
-◈ URL: ${repoData.html_url}
-
-Description:
-${repoData.description || 'No description provided'}
-
-> ${config.DESCRIPTION}`;
-
-        const styles = [style1, style2, style3, style4, style5, style6, style7, style8, style9, style10];
-        const selectedStyle = styles[Math.floor(Math.random() * styles.length)];
-
-        // Send image with repo info
         await conn.sendMessage(from, {
-            image: { url: config.MENU_IMAGE_URL || 'https://files.catbox.moe/wbrnn4.jpg' },
-            caption: selectedStyle,
-            contextInfo: { 
+            text: msg,
+            contextInfo: {
                 mentionedJid: [m.sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363288304618280@newsletter',
-                    newsletterName: config.OWNER_NAME || 'Pk driller',
-                    serverMessageId: 143
+                    newsletterName: "Nexus tech",
+                    serverMessageId: 145
+                },
+                externalAdReply: {
+                    showAdAttribution: true,
+                    title: "NEXUS-XMD on GitHub",
+                    body: "Click to view the official repo",
+                    thumbnailUrl: 'https://avatars.githubusercontent.com/u/159210011?s=200&v=4',
+                    mediaType: 1,
+                    mediaUrl: html_url,
+                    sourceUrl: html_url
                 }
             }
-        }, { quoted: mek });
-
-        // Send audio
-        await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/6j2z63.mp3' },
-            mimetype: 'audio/mp4',
-            ptt: true,
-            contextInfo: { 
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true
+        }, {
+            quoted: {
+                key: {
+                    fromMe: false,
+                    participant: "0@s.whatsapp.net",
+                    remoteJid: "status@broadcast"
+                },
+                message: {
+                    contactMessage: {
+                        displayName: "Verified GitHub",
+                        vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:GitHub Inc\nORG:Nexus Tech Verified✅;\nTEL;type=CELL;type=VOICE;waid=1234567890:+1 234 567 890\nEND:VCARD`
+                    }
+                }
             }
-        }, { quoted: mek });
+        });
 
-    } catch (error) {
-        console.error("Repo command error:", error);
-        reply(`❌ Error: ${error.message}`);
+    } catch (err) {
+        console.error(err);
+        reply("❌ Failed to fetch GitHub data.");
     }
 });
