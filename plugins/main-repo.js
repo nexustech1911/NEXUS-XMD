@@ -52,7 +52,7 @@ async (conn, mek, m, { from, reply }) => {
                     showAdAttribution: true,
                     title: "NEXUS-XMD on GitHub",
                     body: "Click to view the official repo",
-                    thumbnailUrl: 'https://avatars.githubusercontent.com/u/159210011?s=200&v=4',
+                    thumbnailUrl: 'https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/Nexus-xmd.jpg',
                     mediaType: 1,
                     mediaUrl: html_url,
                     sourceUrl: html_url
