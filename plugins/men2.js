@@ -2,9 +2,9 @@ const config = require('../config');
 const { cmd } = require('../command');
 
 cmd({
-  pattern: "menu5",
+  pattern: "menu2",
   alias: ["menu2", "help"],
-  desc: "Interactive button menu",
+  desc: "Show command menu",
   category: "menu",
   react: "📚",
   filename: __filename
@@ -16,72 +16,57 @@ async (conn, mek, m, {
   reply
 }) => {
   try {
-    const thumb = {
-      url: "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/Nexus-xmd.jpg"
-    };
+    const menuText = `╭━━❮ *NEXUS-AI MENU* ❯━━⬣
+┃ 👤 *Hello:* ${pushname || 'User'}
+┃ 🌍 *Mode:* ${config.WORKTYPE || 'Public'}
+┃ 📚 *Prefix:* `.`
+╰━━━━━━━━━━━━━━⬣
 
-    const sections = [
-      {
-        title: "📥 Download Commands",
-        rows: [
-          { title: ".play / .play2", rowId: ".play song" },
-          { title: ".video / .video2", rowId: ".video clip" },
-          { title: ".apk / .img / .darama", rowId: ".apk app" },
-          { title: ".fb / .tk / .ig / .twitter", rowId: ".fb link" },
-          { title: ".gdrive / .mfire / .baiscope", rowId: ".gdrive file" }
-        ]
-      },
-      {
-        title: "🧸 Anime & Fun",
-        rows: [
-          { title: ".anime / .animegirl / .loli", rowId: ".anime" },
-          { title: ".dog / .king / .yts", rowId: ".dog" },
-          { title: ".joke / .fact", rowId: ".joke" }
-        ]
-      },
-      {
-        title: "🛠 Info & Tools",
-        rows: [
-          { title: ".ping / .system / .status", rowId: ".ping" },
-          { title: ".owner / .about / .repo / .script", rowId: ".owner" },
-          { title: ".ai / .define / .gpass / .srepo", rowId: ".ai" },
-          { title: ".githubstalk", rowId: ".githubstalk" }
-        ]
-      },
-      {
-        title: "👥 Group Controls",
-        rows: [
-          { title: ".add / .kick / .remove / .delete", rowId: ".add" },
-          { title: ".mute / .unmute / .lockgc / .unlockgc", rowId: ".mute" },
-          { title: ".tagall / .hidetag / .jid / .ginfo", rowId: ".tagall" },
-          { title: ".setwelcome / .setgoodbye / .disappear", rowId: ".setwelcome" },
-          { title: ".joinrequests / .allreq", rowId: ".joinrequests" }
-        ]
-      },
-      {
-        title: "👑 Owner Panel",
-        rows: [
-          { title: ".update / .restart / .shutdown", rowId: ".update" },
-          { title: ".block / .unblock / .clearchats", rowId: ".block" },
-          { title: ".settings / .broadcast / .setpp", rowId: ".settings" },
-          { title: ".jid / .gjid", rowId: ".jid" }
-        ]
-      },
-      {
-        title: "🔄 Convert Tools",
-        rows: [
-          { title: ".sticker", rowId: ".sticker" },
-          { title: ".tts", rowId: ".tts" },
-          { title: ".trt", rowId: ".trt" }
-        ]
-      }
-    ];
+🧟‍♂️ *DOWNLOAD*
+• .play / .play2 – YT audio
+• .video / .video2 – YT video
+• .apk – Apk from Play Store
+• .fb / .tk / .ig / .twitter – Video downloader
+• .gdrive / .mfire / .baiscope – File download
+
+🧸 *ANIME & FUN*
+• .anime / .animegirl / .loli – Anime pics
+• .dog / .king / .yts – Random data
+• .joke / .fact – Random jokes & facts
+
+🛠 *INFO & TOOLS*
+• .ping / .status / .system
+• .owner / .about / .repo / .script
+• .ai / .define / .gpass / .srepo
+• .githubstalk
+
+👥 *GROUP COMMANDS*
+• .add / .kick / .remove / .delete
+• .tagall / .hidetag / .jid / .ginfo
+• .mute / .unmute / .lockgc / .unlockgc
+• .setwelcome / .setgoodbye / .disappear
+• .joinrequests / .allreq
+
+👑 *OWNER PANEL*
+• .update / .restart / .shutdown
+• .block / .unblock / .clearchats
+• .settings / .broadcast / .setpp
+• .jid / .gjid
+
+🔄 *CONVERTERS*
+• .sticker – Photo to sticker
+• .tts – Text to voice
+• .trt – Language translator
+
+_💡 Powered by Nexus-AI Bot_
+
+🔗 *Repo:* ${config.REPO || 'https://github.com/pkdriller0/NEXUS-AI'}`
 
     const vcardMsg = {
       key: {
         fromMe: false,
-        participant: "0@s.whatsapp.net",
-        ...(from ? { remoteJid: from } : {})
+        participant: '0@s.whatsapp.net',
+        remoteJid: from
       },
       message: {
         contactMessage: {
@@ -91,20 +76,17 @@ async (conn, mek, m, {
       }
     };
 
-    const listMessage = {
-      text: `╭━━❮ *NEXUS-AI MENU* ❯━━⬣\n┃ Hello ${pushname || "there"}!\n┃ Tap below to explore commands.\n╰━━━━━━━━━━━━━━⬣`,
-      footer: `${config.FOOTER || 'NEXUS-AI BOT'}`,
-      title: `☣️ NEXUS-AI COMMAND CENTER`,
-      buttonText: "📖 Open Menu",
-      sections,
+    await conn.sendMessage(from, {
+      image: { url: "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/Nexus-xmd.jpg" },
+      caption: menuText,
       contextInfo: {
         mentionedJid: [sender],
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
-          title: "NEXUS-AI",
-          body: "Best WhatsApp Bot",
-          thumbnail: thumb,
+          title: "NEXUS-AI Command Menu",
+          body: "Explore powerful commands",
+          thumbnail: { url: "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/Nexus-xmd.jpg" },
           mediaType: 1,
           renderLargerThumbnail: true,
           showAdAttribution: true,
@@ -113,15 +95,13 @@ async (conn, mek, m, {
         forwardedNewsletterMessageInfo: {
           newsletterJid: '120363288304618280@newsletter',
           newsletterName: 'NEXUS-TECH',
-          serverMessageId: 143
+          serverMessageId: 100
         }
       }
-    };
-
-    await conn.sendMessage(from, listMessage, { quoted: vcardMsg });
+    }, { quoted: vcardMsg });
 
   } catch (err) {
     console.log(err);
-    reply("❌ Menu command failed.");
+    reply("❌ Menu display failed.");
   }
 });
