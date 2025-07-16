@@ -56,6 +56,7 @@ cmd({
       mimetype: "audio/mp4",
       ptt: true,
       contextInfo: {
+        mentionedJid: [m.sender],
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
@@ -73,28 +74,7 @@ cmd({
           serverMessageId: 143
         }
       }
-    }, {
-      quoted: {
-        key: {
-          fromMe: false,
-          participant: '0@s.whatsapp.net',
-          remoteJid: 'status@broadcast'
-        },
-        message: {
-          contactMessage: {
-            displayName: "NEXUS Verified Bot",
-            vcard: `
-BEGIN:VCARD
-VERSION:3.0
-N:NEXUS;AI;;;
-FN:NEXUS-XMD OFFICIAL
-ORG:NEXUS-BOTS;
-TEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000
-END:VCARD`
-          }
-        }
-      }
-    });
+    }, { quoted: m });
 
   } catch (err) {
     console.error("Play Error:", err);
