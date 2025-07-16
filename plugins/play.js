@@ -1,61 +1,76 @@
 const { cmd } = require('../command');
 const axios = require('axios');
+const ytSearch = require('yt-search');
 
 cmd({
   pattern: "play",
-  alias: ["song", "ytmp3"],
-  desc: "Download YouTube audio via giftedtech",
+  alias: ["song", "ytmp3", "audio", "mp3"],
+  desc: "Download YouTube audio via working APIs",
   category: "music",
   use: ".play < song name >",
-  react: "🎶"
+  react: "⬇️"
 }, async (conn, m, msg, { q }) => {
   try {
-    if (!q) return msg.reply("🎵 Please provide the song name.\n_Example:_ `.play calm down`");
+    if (!q) return msg.reply("❗Please provide a song name.\n\n_Example:_ `.play calm down`");
 
-    msg.reply("🔍 Searching song...");
+    const search = await ytSearch(q);
+    if (!search.videos.length) return msg.reply("❌ No results found.");
 
-    // Step 1: Search YouTube using Akuari API
-    const search = await axios.get(`https://api.akuari.my.id/search/ytsearch?query=${encodeURIComponent(q)}`);
-    const video = search.data.hasil[0];
-    if (!video || !video.url) return msg.reply("❌ No video found.");
+    const video = search.videos[0];
+    const videoUrl = video.url;
+    const title = video.title;
+    const [artist, songTitle] = title.includes(" - ") ? title.split(" - ", 2) : ["Unknown Artist", title];
 
-    const yturl = video.url;
+    await msg.reply("⏳ Downloading audio...");
 
-    // Step 2: Get mp3 download info from giftedtech
-    const api = `https://api.giftedtech.co.ke/api/download/ytmusic?apikey=gifted&quality=128&url=${encodeURIComponent(yturl)}`;
-    const res = await axios.get(api);
-    const data = res.data;
+    const tryApi = async (url) => {
+      try {
+        const res = await axios.get(url);
+        return res.data;
+      } catch {
+        return { success: false };
+      }
+    };
 
-    if (!data.status || !data.result || !data.result.audio) {
-      return msg.reply("⚠️ Failed to fetch song. API might be down.");
+    const apis = [
+      `https://apis.davidcyriltech.my.id/download/ytmp3?url=${encodeURIComponent(videoUrl)}&apikey=gifted-md`,
+      `https://www.dark-yasiya-api.site/download/ytmp3?url=${encodeURIComponent(videoUrl)}`,
+      `https://api.dreaded.site/api/ytdl/video?query=${encodeURIComponent(videoUrl)}`
+    ];
+
+    let response;
+    for (const url of apis) {
+      const result = await tryApi(url);
+      if (result?.success && result?.result?.download_url) {
+        response = result;
+        break;
+      }
     }
 
-    const { title, audio, thumbnail } = data.result;
+    if (!response) return msg.reply("❌ All sources failed. Try again later.");
 
-    // Step 3: Download audio buffer
-    const dl = await axios.get(audio, { responseType: 'arraybuffer' });
+    const { download_url, thumbnail } = response.result;
 
-    // Step 4: Send as PTT with fake verified contact + newsletter
     await conn.sendMessage(m.from, {
-      audio: Buffer.from(dl.data),
-      mimetype: 'audio/mpeg',
+      audio: { url: download_url },
+      mimetype: "audio/mp4",
       ptt: true,
       contextInfo: {
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
-          title,
-          body: "NEXUS-XMD | YouTube MP3 🎶",
-          thumbnailUrl: thumbnail,
-          sourceUrl: yturl,
-          mediaType: 2,
-          renderLargerThumbnail: true,
-          showAdAttribution: true
+          title: "🎧 NEXUS-XMD AUDIO DOWNLOADER",
+          body: `🎵 ${artist} - ${songTitle}`,
+          mediaType: 1,
+          thumbnailUrl: thumbnail || "https://telegra.ph/file/94f5c37a2b1d6c93a97ae.jpg",
+          sourceUrl: videoUrl,
+          renderLargerThumbnail: false,
+          showAdAttribution: false
         },
         forwardedNewsletterMessageInfo: {
-          newsletterJid: '120363128902636636@newsletter',
-          newsletterName: 'NEXUS-XMD MUSIC',
-          serverMessageId: 'msg1234'
+          newsletterJid: '120363295141350550@newsletter',
+          newsletterName: 'NEXUS-XMD BOT',
+          serverMessageId: 143
         }
       }
     }, {
@@ -67,13 +82,13 @@ cmd({
         },
         message: {
           contactMessage: {
-            displayName: "NEXUS Verified 🎧",
+            displayName: "NEXUS Verified Bot",
             vcard: `
 BEGIN:VCARD
 VERSION:3.0
-N:AI;NEXUS;;;
+N:NEXUS;AI;;;
 FN:NEXUS-XMD OFFICIAL
-ORG:NEXUS-MUSIC;
+ORG:NEXUS-BOTS;
 TEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000
 END:VCARD`
           }
@@ -81,8 +96,8 @@ END:VCARD`
       }
     });
 
-  } catch (e) {
-    console.error(e);
-    msg.reply("❌ Error occurred while processing. Try again later.");
+  } catch (err) {
+    console.error("Play Error:", err);
+    msg.reply("❌ Error occurred: " + (err.message || err));
   }
 });
