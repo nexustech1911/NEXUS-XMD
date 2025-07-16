@@ -40,13 +40,13 @@ const handleCustomPrompt = (text) => {
         return `📦 *Repository:* https://github.com/nexustech1911/NEXUS-XMD`;
 
     if (lower.includes("channel"))
-        return `📡 *Official Channel:* https://t.me/nexus_ai_updates`;
+        return `📡 *Official Channel:* https://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x`;
 
     if (lower.includes("who are you") || lower.includes("your name"))
         return `🤖 I am *NEXUS-XMD AI*, developed and maintained by *Pkdriller 🇰🇪*`;
 
     if (lower.includes("nexus-xmd"))
-        return `🧠 *NEXUS-XMD* is an advanced WhatsApp bot packed with AI, media tools, downloads, group features & more.\n\n🔧 *Support:* https://t.me/nexus_ai_support`;
+        return `🧠 *NEXUS-XMD* is an advanced WhatsApp bot packed with AI, media tools, downloads, group features & more developed and maintained by pkdriller.\n\n🔧 *Support:* https://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x`;
 
     return null;
 };
