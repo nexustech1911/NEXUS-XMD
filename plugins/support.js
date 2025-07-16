@@ -63,7 +63,7 @@ ${readMore}
         }
 
         await conn.sendMessage(from, {
-            image: { url: 'https://i.ibb.co/W4xhtdW8/nexus-xmd.jpg' },
+            image: { url: 'https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/1d694055a8e0c692f5cdf56027b12741.jpg' },
             caption,
             contextInfo: {
                 mentionedJid: [sender],
