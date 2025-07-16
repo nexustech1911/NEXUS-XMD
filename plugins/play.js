@@ -3,8 +3,8 @@ const axios = require('axios');
 
 cmd({
   pattern: "play",
-  alias: ["ytmp3", "song"],
-  desc: "Download YouTube song via gifted API",
+  alias: ["song", "ytmp3"],
+  desc: "Download YouTube audio via giftedtech",
   category: "music",
   use: ".play < song name >",
   react: "🎶"
@@ -12,35 +12,41 @@ cmd({
   try {
     if (!q) return msg.reply("🎵 Please provide the song name.\n_Example:_ `.play calm down`");
 
-    msg.reply("🔍 Searching...");
+    msg.reply("🔍 Searching song...");
 
-    // 1. Search video via lightweight yt search API
+    // Step 1: Search YouTube using Akuari API
     const search = await axios.get(`https://api.akuari.my.id/search/ytsearch?query=${encodeURIComponent(q)}`);
     const video = search.data.hasil[0];
-    if (!video || !video.url) return msg.reply("❌ Song not found.");
+    if (!video || !video.url) return msg.reply("❌ No video found.");
 
     const yturl = video.url;
 
-    // 2. Call giftedtech API
-    const res = await axios.get(`https://api.giftedtech.co.ke/api/download/dlmp3?apikey=gifted&url=${encodeURIComponent(yturl)}`);
+    // Step 2: Get mp3 download info from giftedtech
+    const api = `https://api.giftedtech.co.ke/api/download/ytmusic?apikey=gifted&quality=128&url=${encodeURIComponent(yturl)}`;
+    const res = await axios.get(api);
     const data = res.data;
-    if (!data.status || !data.audio) return msg.reply("⚠️ API error. Song might not be downloadable.");
 
-    // 3. Download audio
-    const audioData = await axios.get(data.audio, { responseType: 'arraybuffer' });
+    if (!data.status || !data.result || !data.result.audio) {
+      return msg.reply("⚠️ Failed to fetch song. API might be down.");
+    }
 
-    // 4. Send audio as PTT with fake verification & newsletter
+    const { title, audio, thumbnail } = data.result;
+
+    // Step 3: Download audio buffer
+    const dl = await axios.get(audio, { responseType: 'arraybuffer' });
+
+    // Step 4: Send as PTT with fake verified contact + newsletter
     await conn.sendMessage(m.from, {
-      audio: Buffer.from(audioData.data),
+      audio: Buffer.from(dl.data),
       mimetype: 'audio/mpeg',
       ptt: true,
       contextInfo: {
         forwardingScore: 999,
         isForwarded: true,
         externalAdReply: {
-          title: data.title,
-          body: "NEXUS-XMD | YouTube MP3",
-          thumbnailUrl: data.thumb,
+          title,
+          body: "NEXUS-XMD | YouTube MP3 🎶",
+          thumbnailUrl: thumbnail,
           sourceUrl: yturl,
           mediaType: 2,
           renderLargerThumbnail: true,
@@ -75,8 +81,8 @@ END:VCARD`
       }
     });
 
-  } catch (err) {
-    console.error(err);
-    msg.reply("❌ Something went wrong. Try again later.");
+  } catch (e) {
+    console.error(e);
+    msg.reply("❌ Error occurred while processing. Try again later.");
   }
 });
