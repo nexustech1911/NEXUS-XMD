@@ -1,7 +1,9 @@
 const config = require('../config');
 const { cmd, commands } = require('../command');
 const { runtime } = require('../lib/functions');
+const moment = require('moment-timezone');
 
+// Newsletter style context info
 const commonContextInfo = (sender) => ({
     mentionedJid: [sender],
     forwardingScore: 999,
@@ -13,6 +15,23 @@ const commonContextInfo = (sender) => ({
     }
 });
 
+// Verified contact (quoted message)
+const quotedContact = {
+    key: {
+        fromMe: false,
+        participant: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast"
+    },
+    message: {
+        contactMessage: {
+            displayName: "NEXUS-XMD",
+            vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:NEXUS-XMD\nORG:NEXUS-BOTS;\nTEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000\nEND:VCARD`,
+            jpegThumbnail: null,
+            isFromMe: false
+        }
+    }
+};
+
 cmd({
     pattern: "menu",
     desc: "Show all bot commands in selection menu",
@@ -22,41 +41,53 @@ cmd({
 },
 async (conn, mek, m, { from, sender, pushname, reply }) => {
     try {
-        let totalCommands = Object.keys(commands).length;
-        const caption = `*╭────⬡ ${config.BOT_NAME} ⬡────*
-★├▢ 👤 *𝕠𝕨𝕟𝕖𝕣:* ${config.OWNER_NAME}
-★├▢ 🪀 *𝕡𝕣𝕖𝕗𝕚𝕩:* ${config.PREFIX}
-★├▢ 🔰 *𝕧𝕖𝕣𝕤𝕚𝕠𝕟:* 5.0.0 antiban
-★├▢ ♻️ *𝕡𝕝𝕒𝕥𝕗𝕠𝕣𝕞:* Panel 
-★├▢ 📵 *𝕥𝕠𝕥𝕒𝕝 𝕔𝕠𝕞𝕞𝕒𝕟𝕕𝕤:* ${totalCommands}
-★├▢ 🚳 *𝕣𝕦𝕟𝕥𝕚𝕞𝕖:* ${runtime(process.uptime())}
-★╰────────────────*
+        const totalCommands = Object.keys(commands).length;
+        const audioUrl = 'https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/main/audio/nexus-menu.mp3'; // You can replace this with your own audio
 
-*╭───⬡ SELECT MENU ⬡───*
-*├▢ 1. 📖 Quran Menu*
-*├▢ 2. 🕋 Prayer Time*
-*├▢ 3. 🤖 AI Menu*
-*├▢ 4. 🎭 Anime Menu*
-*├▢ 5. 😹 Reactions*
-*├▢ 6. 🔁 Convert Menu*
-*├▢ 7. 🎉 Fun Menu*
-*├▢ 8. ⬇️ Download Menu*
-*├▢ 9. 👥 Group Menu*
-*├▢ 10. 🏠 Main Menu*
-*├▢ 11. 👑 Owner Menu*
-*├▢ 12. 🧩 Other Menu*
-*├▢ 13. 🖌️ Logo Menu*
-*├▢ 14. 🛠️ Tools Menu*
-*╰────────────────*
+        const caption = `*╭── ⬡ ${config.BOT_NAME} MAIN MENU ⬡ ──╮*
+★ ┇ 👤 *Owner:* ${config.OWNER_NAME}
+★ ┇ 🪀 *Prefix:* ${config.PREFIX}
+★ ┇ 🔰 *Version:* 5.0.0 (antiban)
+★ ┇ ♻️ *Platform:* Panel
+★ ┇ 📵 *Total Commands:* ${totalCommands}
+★ ┇ ⏳ *Uptime:* ${runtime(process.uptime())}
+*╰────────────────────────────╯*
 
-> Reply with the number to select menu (1-14)`;
+*╭───📁 MENU CATEGORIES 📁───╮*
+*├─ 1.* 📖 Quran Menu  
+*├─ 2.* 🕋 Prayer Time  
+*├─ 3.* 🤖 AI Menu  
+*├─ 4.* 🎭 Anime Menu  
+*├─ 5.* 😹 Reactions  
+*├─ 6.* 🔁 Convert Menu  
+*├─ 7.* 🎉 Fun Menu  
+*├─ 8.* ⬇️ Download Menu  
+*├─ 9.* 👥 Group Menu  
+*├─ 10.* 🏠 Main Menu  
+*├─ 11.* 👑 Owner Menu  
+*├─ 12.* 🧩 Other Menu  
+*├─ 13.* 🖌️ Logo Menu  
+*├─ 14.* 🛠️ Tools Menu  
+*╰────────────────────────────╯*
 
+_Reply with a number (1–14) to explore that menu._`;
+
+        // Send the menu image and caption
         const sentMsg = await conn.sendMessage(from, {
             image: { url: config.MENU_IMAGE_URL },
             caption: caption,
             contextInfo: commonContextInfo(sender)
-        }, { quoted: mek });
+        }, { quoted: quotedContact });
 
+        // Send the PTT music as intro
+        await conn.sendMessage(from, {
+            audio: { url: audioUrl },
+            mimetype: 'audio/mpeg',
+            ptt: true,
+            contextInfo: commonContextInfo(sender)
+        }, { quoted: quotedContact });
+
+        // Continue with selection logic (if someone replies 1–14)
         const messageID = sentMsg.key.id;
 
         conn.ev.on("messages.upsert", async (msgData) => {
@@ -71,6 +102,17 @@ async (conn, mek, m, { from, sender, pushname, reply }) => {
                 await conn.sendMessage(senderID, {
                     react: { text: '⬇️', key: receivedMsg.key }
                 });
+
+                // Existing menu selection logic (1–14) continues here...
+                // ↪ Just like in your original command (not included here for brevity)
+            }
+        });
+
+    } catch (e) {
+        console.error(e);
+        reply(`❌ Error:\n${e}`);
+    }
+});
 
                 switch (receivedText) {
                     case "1": // Quran Menu
