@@ -51,11 +51,29 @@ async (conn, mek, m, { from, sender, pushname, reply }) => {
 
 > Reply with the number to select menu (1-14)`;
 
-        const sentMsg = await conn.sendMessage(from, {
-            image: { url: config.MENU_IMAGE_URL },
-            caption: caption,
-            contextInfo: commonContextInfo(sender)
-        }, { quoted: mek });
+        
+const quotedContact = {
+    key: {
+        fromMe: false,
+        participant: "0@s.whatsapp.net",
+        remoteJid: "status@broadcast"
+    },
+    message: {
+        contactMessage: {
+            displayName: "NEXUS-XMD",
+            vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:NEXUS-XMD\nORG:NEXUS-BOTS;\nTEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000\nEND:VCARD`,
+            jpegThumbnail: null,
+            isFromMe: false
+        }
+    }
+};
+
+
+const sentMsg = await conn.sendMessage(from, {
+    image: { url: config.MENU_IMAGE_URL },
+    caption: caption,
+    contextInfo: commonContextInfo(sender)
+}, { quoted: quotedContact });
 
         const messageID = sentMsg.key.id;
 
