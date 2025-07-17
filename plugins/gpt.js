@@ -3,30 +3,11 @@ const axios = require('axios');
 const moment = require('moment-timezone');
 const config = require('../config');
 
-const commonContextInfo = (sender) => ({
-    mentionedJid: [sender],
-    forwardingScore: 999,
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363288304618280@newsletter',
-        newsletterName: 'NEXUS-XMD UPDATES',
-        serverMessageId: 100,
-    },
-    externalAdReply: {
-        showAdAttribution: true,
-        title: 'NEXUS-XMD AI ZONE',
-        body: moment().tz(config.TIME_ZONE).format('dddd, MMMM Do YYYY • h:mm A'),
-        thumbnailUrl: 'https://i.imgur.com/ErKf5Yb.jpg',
-        mediaType: 1,
-        renderLargerThumbnail: true,
-        sourceUrl: 'https://chat.openai.com',
-    }
-});
-
+// Fake contact to simulate verified message
 const fakeContact = {
     key: {
         fromMe: false,
-        participant: '0@s.whatsapp.net',
+        participant: '0@s.whatsapp.net'
     },
     message: {
         contactMessage: {
@@ -37,73 +18,94 @@ const fakeContact = {
     }
 };
 
-// 🧠 AI Command with Custom Responses
+// Newsletter-style context
+const getContext = (sender) => ({
+    mentionedJid: [sender],
+    forwardingScore: 999,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: '120363288304618280@newsletter',
+        newsletterName: 'NEXUS-XMD UPDATES',
+        serverMessageId: 100
+    },
+    externalAdReply: {
+        showAdAttribution: true,
+        title: '🤖 NEXUS-XMD AI',
+        body: moment().tz(config.TIME_ZONE).format('dddd, MMMM Do YYYY • h:mm A'),
+        thumbnailUrl: 'https://i.imgur.com/ErKf5Yb.jpg',
+        mediaType: 1,
+        renderLargerThumbnail: true,
+        sourceUrl: 'https://chat.openai.com'
+    }
+});
+
 cmd({
     pattern: "pkai",
-    alias: ["botq", "nex", "gp", "pk", "pkdriller"],
-    desc: "Chat with an AI model",
+    alias: ["nexus", "askbot", "askai", "pk"],
+    desc: "Chat with NEXUS-XMD AI",
     category: "ai",
     react: "🤖",
     filename: __filename
 },
-async (conn, mek, m, { from, q, reply, react }) => {
+async (conn, mek, m, { from, sender, q, reply, react }) => {
     try {
-        if (!q) return reply("Please provide a message for the AI.\nExample: `.ai Hello`");
+        if (!q) return reply("❗ Please provide a message.\nExample: `.pkai what is nexus-xmd?`");
 
         const text = q.toLowerCase();
-        let answer;
+        let answer = null;
 
-        // 🎯 Custom Hardcoded Q&A
+        // Predefined smart responses
         if (text.includes("time")) {
-            answer = `🕐 Current time is: *${moment().tz(config.TIME_ZONE).format("dddd, MMMM Do YYYY, h:mm:ss A")}*`;
-        } else if (text.includes("repo") || text.includes("github")) {
-            answer = "📂 *NEXUS-XMD GitHub Repo:*\nhttps://github.com/pkdriller2/NEXUS-XMD";
+            answer = `🕐 Current time: *${moment().tz(config.TIME_ZONE).format("dddd, MMMM Do YYYY, h:mm:ss A")}*`;
+        } else if (text.includes("repo")) {
+            answer = "📁 *GitHub Repo:* https://github.com/pkdriller2/NEXUS-XMD";
         } else if (text.includes("pkdriller")) {
-            answer = "👤 *PKDRILLER* is the lead developer and founder of NEXUS-XMD, known for innovative bot development and customization.";
+            answer = "👤 *PKDRILLER* is the lead developer of NEXUS-XMD, known for top-tier WhatsApp automation.";
         } else if (text.includes("today") || text.includes("date")) {
             answer = `📅 Today is: *${moment().tz(config.TIME_ZONE).format("dddd, MMMM Do YYYY")}*`;
         } else if (text.includes("owner")) {
-            answer = "👑 *My owner is @pkdriller2*, a skilled developer behind NEXUS-XMD.";
+            answer = "👑 My owner is *@pkdriller2*, creator of NEXUS-XMD.";
         } else if (text.includes("country")) {
             answer = "🌍 I'm based in *Kenya*, developed by African innovation.";
         } else if (text.includes("nexus") && text.includes("more")) {
-            answer = "🤖 *NEXUS-XMD* is a powerful WhatsApp bot built for automation, entertainment, group management, AI chat, media downloads, and more. Continuously evolving with new features!";
+            answer = "🤖 *NEXUS-XMD* is an advanced multi-purpose WhatsApp bot packed with tools for AI, group control, media download, fun, and automation.";
         } else if (text.includes("support nexus")) {
-            answer = "💖 You can support NEXUS-XMD by sharing it, starring the GitHub repo, and following @pkdriller2. Donations or contributions are welcome!";
+            answer = "💖 You can support NEXUS-XMD by sharing, starring the GitHub, joining the dev channel, or donating!";
         } else if (text.includes("updates") || text.includes("supportive link")) {
-            answer = "📢 *Stay Updated on NEXUS-XMD:*\n\n📌 GitHub Repo:\nhttps://github.com/pkdriller2/NEXUS-XMD\n📌 Developer Channel:\nhttps://whatsapp.com/channel/0029VaFbhkQF3s9WbVQYvK2N\n📌 Support Group:\nhttps://chat.whatsapp.com/IjLSqYjaRwR1zBhVfDgxg5";
-        } else if (text.includes("giveaway") && text.includes("can we")) {
-            answer = "🎁 *Giveaway?* That's a great idea! We’re planning future events. Stay active in the channel for announcements.";
+            answer = `📢 *NEXUS-XMD Resources:*\n\n• GitHub: https://github.com/pkdriller2/NEXUS-XMD\n• Channel: https://whatsapp.com/channel/0029VaFbhkQF3s9WbVQYvK2N\n• Support: https://chat.whatsapp.com/IjLSqYjaRwR1zBhVfDgxg5`;
+        } else if (text.includes("can we") && text.includes("giveaway")) {
+            answer = "🎁 Yes! Giveaways are coming soon. Stay tuned in the dev channel.";
         } else if (text.includes("why can't") && text.includes("giveaway")) {
-            answer = "🚫 *No giveaway currently* due to limited resources and fairness control. But it's on our roadmap!";
+            answer = "🚫 No giveaway right now due to budget limits, but it's planned!";
         }
 
+        // If predefined response found
         if (answer) {
             await conn.sendMessage(from, {
                 text: answer,
-                contextInfo: commonContextInfo(m.sender)
+                contextInfo: getContext(sender)
             }, { quoted: fakeContact });
             return await react("✅");
         }
 
-        // 🌐 Fallback to AI API
+        // Fallback to API
         const apiUrl = `https://lance-frank-asta.onrender.com/api/gpt?q=${encodeURIComponent(q)}`;
-        const { data } = await axios.get(apiUrl);
+        const res = await axios.get(apiUrl);
 
-        if (!data?.message) {
+        if (!res?.data?.message) {
             await react("❌");
-            return reply("AI failed to respond. Please try again later.");
+            return reply("AI didn’t respond. Try again later.");
         }
 
         await conn.sendMessage(from, {
-            text: `🤖 *AI Response:*\n\n${data.message}`,
-            contextInfo: commonContextInfo(m.sender)
+            text: `🤖 *AI Response:*\n\n${res.data.message}`,
+            contextInfo: getContext(sender)
         }, { quoted: fakeContact });
         await react("✅");
 
-    } catch (e) {
-        console.error("AI command error:", e);
+    } catch (err) {
+        console.error('❌ Error:', err);
         await react("❌");
-        reply("An error occurred while communicating with the AI.");
+        reply("An error occurred while processing your request.");
     }
 });
