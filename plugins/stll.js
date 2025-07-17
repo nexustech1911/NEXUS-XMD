@@ -1,7 +1,6 @@
 const config = require('../config');
 const { cmd } = require('../command');
 const axios = require('axios');
-const { getBuffer } = require('../lib/myfunc');
 
 cmd({
     pattern: "web2zip",
@@ -39,7 +38,8 @@ async (conn, mek, m, { from, sender, reply, args, q }) => {
             return reply(`❌ Failed to generate ZIP file. ${res.data.message || 'Unknown error.'}`);
         }
 
-        const zipBuffer = await getBuffer(res.data.url);
+        // download zip file using axios
+        const zipResponse = await axios.get(res.data.url, { responseType: 'arraybuffer' });
 
         const fakeContact = {
             key: {
@@ -56,7 +56,7 @@ async (conn, mek, m, { from, sender, reply, args, q }) => {
         };
 
         await conn.sendMessage(from, {
-            document: zipBuffer,
+            document: zipResponse.data,
             fileName: `website.zip`,
             mimetype: 'application/zip',
             contextInfo: {
