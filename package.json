@@ -9,7 +9,7 @@
     "restart": "pm2 restart NEXUS-XMD"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "github:devibraah/bwmxmdtech",
+    "@whiskeysockets/baileys":"github:Drayyyxd/XD-Baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@dark-yasiya/yt-dl.js": "1.0.5",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
