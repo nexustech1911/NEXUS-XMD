@@ -30,7 +30,7 @@ async (conn, mek, m, { from, sender, reply }) => {
         const platform = process.platform;
 
         // Count total commands
-        const totalCommands = 43; // You can update this if you add/remove commands
+        const totalCommands = 950; // You can update this if you add/remove commands
 
         const menu = `*╭───────[ 🌟 ${config.BOT_NAME.toUpperCase()} MENU ]───────╮*
 *│ 👤 Owner:* ${config.OWNER_NAME}
