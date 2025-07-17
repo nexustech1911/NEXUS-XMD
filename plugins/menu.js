@@ -238,7 +238,7 @@ async (conn, mek, m, { from, sender, reply }) => {
 
         await conn.sendMessage(from, {
             audio: {
-                url: 'https://files.catbox.moe/9eo2q4.mp3'
+                url: 'https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/music/drake.m4a'
             },
             mimetype: 'audio/mpeg',
             ptt: true,
