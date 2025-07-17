@@ -1,3 +1,4 @@
+const config = require('../config');
 const { cmd } = require('../command');
 const axios = require('axios');
 const { getBuffer } = require('../lib/myfunc');
@@ -5,61 +6,80 @@ const { getBuffer } = require('../lib/myfunc');
 cmd({
     pattern: "web2zip",
     alias: ["w2z", "zipweb"],
+    use: '.web2zip <url>',
     desc: "Convert a website to ZIP archive",
     category: "tools",
-    use: '.web2zip <url>',
+    react: "🌐",
     filename: __filename
 },
-async (conn, m, mdata, { args, q, from, prefix, command }) => {
+async (conn, mek, m, { from, sender, reply, args, q }) => {
     try {
-        if (!q) return m.reply(`🌐 *Website to ZIP*\n\nUsage:\n${prefix + command} https://example.com`);
+        const reactionEmojis = ['📦', '🌀', '🌐', '💻', '⚙️', '📁'];
+        const textEmojis = ['📂', '📎', '🛠️', '💽', '🔗'];
 
-        const res = await axios.get(`https://api.giftedtech.web.id/api/tools/web2zip?apikey=gifted&url=${encodeURIComponent(q)}`);
-        const { url, message } = res.data;
+        const reactionEmoji = reactionEmojis[Math.floor(Math.random() * reactionEmojis.length)];
+        let textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
 
-        if (!url) return m.reply(`❌ Failed to generate ZIP. Reason: ${message || 'Unknown error'}`);
+        while (textEmoji === reactionEmoji) {
+            textEmoji = textEmojis[Math.floor(Math.random() * textEmojis.length)];
+        }
 
-        const zipBuffer = await getBuffer(url);
+        await conn.sendMessage(from, {
+            react: { text: textEmoji, key: mek.key }
+        });
 
-        await conn.sendMessage(m.chat, {
-            document: zipBuffer,
-            mimetype: 'application/zip',
-            fileName: `website.zip`,
-            contextInfo: {
-                mentionedJid: [m.sender],
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363144007948371@newsletter',
-                    newsletterName: 'NEXUS TOOLS HUB',
-                    serverMessageId: 'web2zip-nexus'
-                },
-                externalAdReply: {
-                    showAdAttribution: true,
-                    title: "Website to ZIP Tool 🌍",
-                    body: "Powered by GiftedTech",
-                    thumbnailUrl: "https://telegra.ph/file/33f72cdd28980f1fbbbd6.jpg",
-                    mediaType: 1,
-                    mediaUrl: q,
-                    sourceUrl: q
-                }
-            }
-        }, { quoted: {
+        if (!q || !q.startsWith("http")) {
+            return reply(`🌐 *Website to ZIP*\n\nExample:\n.web2zip https://www.google.com`);
+        }
+
+        const api = `https://api.giftedtech.web.id/api/tools/web2zip?apikey=gifted&url=${encodeURIComponent(q)}`;
+        const res = await axios.get(api);
+
+        if (!res.data || !res.data.url) {
+            return reply(`❌ Failed to generate ZIP file. ${res.data.message || 'Unknown error.'}`);
+        }
+
+        const zipBuffer = await getBuffer(res.data.url);
+
+        const fakeContact = {
             key: {
                 fromMe: false,
                 participant: '0@s.whatsapp.net',
-                remoteJid: 'status@broadcast'
+                remoteJid: 'status@broadcast',
             },
             message: {
                 contactMessage: {
-                    displayName: 'Gifted Verified',
-                    vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:Gifted Verified\nORG:NEXUS-XMD Team\nTEL;type=CELL;type=VOICE;waid=254700000000:+254700000000\nEND:VCARD`
+                    displayName: "GiftedTech Verified",
+                    vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:GiftedTech Verified\nORG:NEXUS-XMD TOOLS;\nTEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000\nEND:VCARD`
                 }
             }
-        }});
+        };
 
-    } catch (err) {
-        console.log(err);
-        m.reply('❌ An error occurred while processing the website.');
+        await conn.sendMessage(from, {
+            document: zipBuffer,
+            fileName: `website.zip`,
+            mimetype: 'application/zip',
+            contextInfo: {
+                mentionedJid: [sender],
+                forwardingScore: 999,
+                isForwarded: true,
+                forwardedNewsletterMessageInfo: {
+                    newsletterJid: '120363288304618280@newsletter',
+                    newsletterName: "NEXUS-BOTS SUPPORT",
+                    serverMessageId: 209
+                },
+                externalAdReply: {
+                    title: "🌐 Web to ZIP Converter",
+                    body: "Powered by GiftedTech API",
+                    mediaType: 1,
+                    thumbnailUrl: "https://github.com/nexustech1911/NEXUS-XMD-DATA/raw/refs/heads/main/logo/1d694055a8e0c692f5cdf56027b12741.jpg",
+                    sourceUrl: q
+                }
+            }
+        }, { quoted: fakeContact });
+
+    } catch (e) {
+        console.error("Error in web2zip command:", e);
+        reply(`❌ Error: ${e.message}`);
     }
 });
