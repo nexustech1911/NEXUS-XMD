@@ -29,6 +29,9 @@ async (conn, mek, m, { from, sender, reply }) => {
         const date = now.format("dddd, MMMM Do YYYY");
         const platform = process.platform;
 
+        // Count total commands
+        const totalCommands = 43; // You can update this if you add/remove commands
+
         const menu = `*╭───────[ 🌟 ${config.BOT_NAME.toUpperCase()} MENU ]───────╮*
 *│ 👤 Owner:* ${config.OWNER_NAME}
 *│ ⏱ Uptime:* ${uptime}
@@ -36,62 +39,126 @@ async (conn, mek, m, { from, sender, reply }) => {
 *│ 🕒 Time:* ${time}
 *│ 💻 Platform:* ${platform}
 *│ 🔖 Prefix:* ${config.PREFIX}
+*│ 📦 Total Commands:* ${totalCommands}
 *╰──────────────────────────────────────╯*
 
 ╭───🎯 *AI COMMANDS* ───
 ★├▢ • *ai* <query>
-★├▢ • *gpt*, *gpt2*, *gpt3*, *gpt4*
-★├▢ • *bard*, *meta*, *fluxai*, *pk*
-★├▢ • *blackbox*, *copilot*
+★├▢ • *gpt*
+★├▢ • *gpt2*
+★├▢ • *gpt3*
+★├▢ • *gpt4*
+★├▢ • *bard*
+★├▢ • *meta*
+★├▢ • *fluxai*
+★├▢ • *pk*
+★├▢ • *blackbox*
+★├▢ • *copilot*
 
 ╭───📥 *DOWNLOADERS* ───
-★├▢ • *play*, *ytmp3*, *ytmp4*
-★├▢ • *spotify*, *tiktok*, *fb*
-★├▢ • *twitter*, *mediafire*, *gdrive*
+★├▢ • *play*
+★├▢ • *ytmp3*
+★├▢ • *ytmp4*
+★├▢ • *spotify*
+★├▢ • *tiktok*
+★├▢ • *fb*
+★├▢ • *twitter*
+★├▢ • *mediafire*
+★├▢ • *gdrive*
 
 ╭───🔄 *CONVERTERS* ───
-★├▢ • *sticker*, *tomp3*, *tomp4*
-★├▢ • *tts*, *base64*, *unbase64*
-★├▢ • *binary*, *dbinary*
+★├▢ • *sticker*
+★├▢ • *tomp3*
+★├▢ • *tomp4*
+★├▢ • *tts*
+★├▢ • *base64*
+★├▢ • *unbase64*
+★├▢ • *binary*
+★├▢ • *dbinary*
 
 ╭───🎌 *ANIME ZONE* ───
-★├▢ • *waifu*, *neko*, *maid*
-★├▢ • *animequote*, *animewall*, *animememe*
+★├▢ • *waifu*
+★├▢ • *neko*
+★├▢ • *maid*
+★├▢ • *animequote*
+★├▢ • *animewall*
+★├▢ • *animememe*
 
 ╭───😹 *REACTIONS* ───
-★├▢ • *hug*, *kiss*, *pat*, *slap*
-★├▢ • *poke*, *bite*
+★├▢ • *hug*
+★├▢ • *kiss*
+★├▢ • *pat*
+★├▢ • *slap*
+★├▢ • *poke*
+★├▢ • *bite*
 
 ╭───🌐 *UTILITIES* ───
-★├▢ • *weather*, *news*, *wikipedia*
-★├▢ • *define*, *currency*, *calculator*
-★├▢ • *countdown*, *remind*
-★├▢ • *flip*, *roll*, *fact*
+★├▢ • *weather*
+★├▢ • *news*
+★├▢ • *wikipedia*
+★├▢ • *define*
+★├▢ • *currency*
+★├▢ • *calculator*
+★├▢ • *countdown*
+★├▢ • *remind*
+★├▢ • *flip*
+★├▢ • *roll*
+★├▢ • *fact*
 
 ╭───🧠 *FUN ZONE* ───
-★├▢ • *joke*, *meme*, *truth*, *dare*
-★├▢ • *ship*, *rate*, *hack*, *pickup*
-★├▢ • *wyr*, *wouldyourather*
+★├▢ • *joke*
+★├▢ • *meme*
+★├▢ • *truth*
+★├▢ • *dare*
+★├▢ • *ship*
+★├▢ • *rate*
+★├▢ • *hack*
+★├▢ • *pickup*
+★├▢ • *wyr*
+★├▢ • *wouldyourather*
 
 ╭───🎨 *LOGO MAKER* ───
-★├▢ • *neonlight*, *blackpink*, *dragonball*
-★├▢ • *naruto*, *sadgirl*, *galaxy*
-★├▢ • *boom*, *angelwings*, *paint*
+★├▢ • *neonlight*
+★├▢ • *blackpink*
+★├▢ • *dragonball*
+★├▢ • *naruto*
+★├▢ • *sadgirl*
+★├▢ • *galaxy*
+★├▢ • *boom*
+★├▢ • *angelwings*
+★├▢ • *paint*
 
 ╭───👑 *OWNER COMMANDS* ───
-★├▢ • *ban*, *unban*, *block*, *unblock*
-★├▢ • *broadcast*, *restart*, *shutdown*
+★├▢ • *ban*
+★├▢ • *unban*
+★├▢ • *block*
+★├▢ • *unblock*
+★├▢ • *broadcast*
+★├▢ • *restart*
+★├▢ • *shutdown*
 
 ╭───👥 *GROUP TOOLS* ───
-★├▢ • *add*, *kick*, *promote*, *demote*
-★├▢ • *grouplink*, *revoke*
-★├▢ • *setname*, *setdesc*
-★├▢ • *welcome on/off*, *goodbye on/off*
-★├▢ • *tagall*, *hidetag*
+★├▢ • *add*
+★├▢ • *kick*
+★├▢ • *promote*
+★├▢ • *demote*
+★├▢ • *grouplink*
+★├▢ • *revoke*
+★├▢ • *setname*
+★├▢ • *setdesc*
+★├▢ • *welcome on/off*
+★├▢ • *goodbye on/off*
+★├▢ • *tagall*
+★├▢ • *hidetag*
 
 ╭───⚙️ *SYSTEM COMMANDS* ───
-★├▢ • *menu*, *listcmd*, *allmenu*
-★├▢ • *ping*, *uptime*, *owner*, *support*
+★├▢ • *menu*
+★├▢ • *listcmd*
+★├▢ • *allmenu*
+★├▢ • *ping*
+★├▢ • *uptime*
+★├▢ • *owner*
+★├▢ • *support*
 
 *╰────📚 End of List ────╯*`;
 
@@ -109,14 +176,12 @@ async (conn, mek, m, { from, sender, reply }) => {
             }
         };
 
-        // Send menu image with caption
         await conn.sendMessage(from, {
             image: { url: config.MENU_IMAGE_URL },
             caption: menu,
             contextInfo: commonContextInfo(sender)
         }, { quoted: quotedContact });
 
-        // Send PTT
         await conn.sendMessage(from, {
             audio: {
                 url: 'https://files.catbox.moe/9eo2q4.mp3'
