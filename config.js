@@ -6,7 +6,7 @@ function convertToBool(text, fault = 'true') {
 }
 
 module.exports = {
-  SESSION_ID: process.env.SESSION_ID || "",
+  SESSION_ID: process.env.SESSION_ID || "nexus~snMEUa7Z#eLStgvxqDy6rVhcZ_7IvK_zTb-2LThAvkCfJF38lzvs",
   AUTO_STATUS_SEEN: process.env.AUTO_STATUS_SEEN || "true",
   AUTO_STATUS_REPLY: process.env.AUTO_STATUS_REPLY || "false",
   AUTO_STATUS_REACT: process.env.AUTO_STATUS_REACT || "true",
@@ -23,7 +23,7 @@ module.exports = {
   CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
   CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "💝,💖,💗,❤️‍🩹,❤️,🧡,💛,💚,💙,💜,🤎,🖤,🤍",
   DELETE_LINKS: process.env.DELETE_LINKS || "true",
-  OWNER_NUMBER: process.env.OWNER_NUMBER || "254794146821",
+  OWNER_NUMBER: process.env.OWNER_NUMBER || "254797695832",
   OWNER_NAME: process.env.OWNER_NAME || "Pkdriller",
   DESCRIPTION: process.env.DESCRIPTION || "*© ᴘᴏᴡᴇʀᴇᴅ ʙʏ Pkdriller*",
   ALIVE_IMG: process.env.ALIVE_IMG || "https://files.catbox.moe/z62ts0.jpg",
