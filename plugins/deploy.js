@@ -14,7 +14,7 @@ cmd({
 async (conn, m, mdata, { from, sender }) => {
 
   const text = `
-📦 *NEXUS-XMD DEPLOY GUIDE*
+📦 *NEXUS-XMD FREE-DEPLOYMENT GUIDE FOLLOW STEPS BELOW💯*
 
 📌 *STEP 1: Scan Session*
 🔗 https://xmd-nexus-pair.onrender.com/
