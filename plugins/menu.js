@@ -45,17 +45,16 @@ async (conn, mek, m, { from, sender, reply }) => {
 ╭───🎯 *AI COMMANDS* ───
 ★├▢ • *ai* <query>
 ★├▢ • *gpt*
-★├▢ • *gpt2*
-★├▢ • *gpt3*
-★├▢ • *gpt4*
-★├▢ • *bard*
-★├▢ • *meta*
 ★├▢ • *fluxai*
-★├▢ • *pk*
-★├▢ • *blackbox*
-★├▢ • *copilot*
+
 
 ╭───📥 *DOWNLOADERS* ───
+★├▢ • *play1*
+★├▢ • *play2*
+★├▢ • *play3*
+★├▢ • *play4*
+★├▢ • *play5*
+★├▢ • *play6*
 ★├▢ • *play*
 ★├▢ • *ytmp3*
 ★├▢ • *ytmp4*
@@ -75,6 +74,11 @@ async (conn, mek, m, { from, sender, reply }) => {
 ★├▢ • *unbase64*
 ★├▢ • *binary*
 ★├▢ • *dbinary*
+★├▢ • *ttt*
+★├▢ • *support*
+★├▢ • *removebg*
+★├▢ • *getimage*
+★├▢ • *screenshot*
 
 ╭───🎌 *ANIME ZONE* ───
 ★├▢ • *waifu*
@@ -136,6 +140,12 @@ async (conn, mek, m, { from, sender, reply }) => {
 ★├▢ • *broadcast*
 ★├▢ • *restart*
 ★├▢ • *shutdown*
+★├▢ • *porn*
+★├▢ • *xvideos*
+★├▢ • *randomporn*
+★├▢ • *randomxvideo*
+★├▢ • *spam*
+★├▢ • *antispam*
 
 ╭───👥 *GROUP TOOLS* ───
 ★├▢ • *add*
@@ -154,7 +164,7 @@ async (conn, mek, m, { from, sender, reply }) => {
 ╭───⚙️ *SYSTEM COMMANDS* ───
 ★├▢ • *menu*
 ★├▢ • *listcmd*
-★├▢ • *allmenu*
+★├▢ • *speed*
 ★├▢ • *ping*
 ★├▢ • *uptime*
 ★├▢ • *owner*
