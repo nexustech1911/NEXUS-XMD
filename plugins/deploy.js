@@ -11,7 +11,7 @@ cmd({
   react: "🚀"
 }, async (conn, m, msg, { sender }) => {
   const repoLink = "https://github.com/pkdriller0/NEXUS-XMD"; // update to your real repo
-  const sessionLink = "https://xmd-nexus-pair.onrender.com/;   // update to your session generator
+  const sessionLink = "https://xmd-nexus-pair.onrender.com/";   // update to your session generator
   const guideText = `🚀 *NEXUS-XMD DEPLOYMENT GUIDE*\n
 🔗 *GitHub Repo:* ${repoLink}
 📦 *Session Link:* ${sessionLink}
@@ -29,7 +29,7 @@ cmd({
 🔹 Replit → https://replit.com
 
 📚 *Docs & Support:*
-Need help? Ask in the support group or DM the owner +254794146821.
+Need help? Ask in the support group or DM the owner.
 
 ✅ Happy deploying!`;
 
