@@ -4,7 +4,7 @@ const moment = require('moment-timezone');
 
 cmd({
     pattern: "deploy",
-    alias: ["setup", "freebot"],
+    alias: ["setup", "install"],
     use: '.deploy',
     desc: "Get deployment guide for NEXUS-XMD",
     category: "system",
@@ -65,26 +65,28 @@ Scan QR. Copy the session data.
 _Updated: ${moment().tz(config.TIMEZONE).format('dddd, MMMM Do YYYY, h:mm A')}_
 `;
 
-    const fakeContact = {
+    // Fake verified contact message
+    const quoted = {
         key: {
             fromMe: false,
-            participant: "0@s.whatsapp.net",
-            remoteJid: "status@broadcast"
+            participant: '0@s.whatsapp.net',
+            remoteJid: 'status@broadcast',
         },
         message: {
             contactMessage: {
-                displayName: "NEXUS-XMD SUPPORT",
+                displayName: 'NEXUS-XMD SUPPORT',
                 vcard: `
 BEGIN:VCARD
 VERSION:3.0
 FN:NEXUS-XMD SUPPORT
 ORG:NEXUS-XMD;
-TEL;type=CELL;type=VOICE;waid=254700000001:+254 700 000001
+TEL;type=CELL;type=VOICE;waid=254700000001:+254700000001
 END:VCARD`
             }
         }
     };
 
+    // contextInfo: forwarded newsletter style
     const contextInfo = {
         forwardingScore: 999,
         isForwarded: true,
@@ -96,5 +98,9 @@ END:VCARD`
         }
     };
 
-    await conn.sendMessage(from, { text: deployText, contextInfo }, { quoted: fakeContact });
+    await conn.sendMessage(from, {
+        text: deployText,
+        contextInfo
+    }, { quoted });
+
 });
