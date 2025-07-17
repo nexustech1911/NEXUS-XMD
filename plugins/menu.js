@@ -50,6 +50,39 @@ async (conn, mek, m, { from, sender, reply }) => {
 ★├▢ • *deepsek*
 ★├▢ • *metai*
 
+╭───🔧 *TOOLS COMMANDS* ─
+★├▢ • *setmyname <name>*
+★├▢ • *setpp <image>*
+★├▢ • *setonline <on/off>*
+★├▢ • *setppall <image>*
+★├▢ • *getbio @tag*
+★├▢ • *getpp @tag*
+★├▢ • *getprivacy*
+★├▢ • *groupsprivacy*
+★├▢ • *updatebio <text>*
+★├▢ • *blocklist*
+★├▢ • *fullpp*
+★├▢ • *tea*
+★├▢ • *chai*
+★├▢ • *remini <image>*
+★├▢ • *removebg <image>*
+★├▢ • *urltoimg <url>*
+★├▢ • *reception*
+★├▢ • *captain*
+★├▢ • *repost*
+★├▢ • *story*
+★├▢ • *status*
+★├▢ • *vcf*
+★├▢ • *imgjoke*
+★├▢ • *invert <image>*
+★├▢ • *grey <image>*
+★├▢ • *blur <image>*
+★├▢ • *ad <text>*
+★├▢ • *nokia <text>*
+★├▢ • *wanted <image>*
+★├▢ • *jail <image>*
+★├▢ • *tiny <url>*
+★├▢ • *chr <link> <text/emoji>*
 
 ╭───📥 *DOWNLOADERS* ───
 ★├▢ • *play1*
@@ -82,6 +115,14 @@ async (conn, mek, m, { from, sender, reply }) => {
 ★├▢ • *removebg*
 ★├▢ • *getimage*
 ★├▢ • *screenshot*
+
+╭───📖 *BIBLE COMMANDS* ─
+★├▢ • *bible menu*
+★├▢ • *bible*
+
+╭───🎯 *QURAN COMMANDS* ─
+★├▢ • *prayertime*
+★├▢ • *quran*
 
 ╭───🎌 *ANIME ZONE* ───
 ★├▢ • *waifu*
