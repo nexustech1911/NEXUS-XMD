@@ -8,78 +8,36 @@ const commonContextInfo = (sender) => ({
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363288304618280@newsletter',
-        newsletterName: 'NEXUS-XMD CHANNEL',
-        serverMessageId: 120
+        newsletterName: 'NEXUS-XMD UPDATES',
+        serverMessageId: 202
     }
 });
 
 cmd({
     pattern: "menu",
-    desc: "Show all bot features",
+    desc: "Show full command list",
     category: "menu",
-    react: "🎛️",
+    react: "📚",
     filename: __filename
 },
-async (conn, mek, m, { from, sender, pushname, reply }) => {
+async (conn, mek, m, { from, sender, reply }) => {
     try {
         const totalCommands = Object.keys(commands).length;
         const uptime = runtime(process.uptime());
 
-        const menuText = `╭───〔 🤖 *${config.BOT_NAME} SYSTEM PANEL* 〕───╮
-│ 🧑🏻‍💻 Owner: ${config.OWNER_NAME}
-│ ☄️ Prefix: ${config.PREFIX}
+        const header = `╭──────[ 🤖 ${config.BOT_NAME} FULL MENU ]──────╮
+│ 👤 Owner: ${config.OWNER_NAME}
+│ 💠 Prefix: ${config.PREFIX}
 │ 🛠 Version: 5.0.0 Antiban
-│ 🌐 Hosted: Panel
-│ 🧮 Total Commands: ${totalCommands}
-│ ⏳ Uptime: ${uptime}
-╰────────────────────────────╯
+│ 🧾 Total Commands: ${totalCommands}
+│ ⏱ Uptime: ${uptime}
+╰────────────────────────────────────╯\n\n`;
 
-┌──〔 🕌 Quran & Prayer 〕──
-│ 📖 .surah <no>, .ayat <s:v>
-│ 🕋 .prayer <city>, .hijridate
+        const fullCmdList = Object.keys(commands).map((cmd, i) => `*${i + 1}. ${config.PREFIX}${cmd}*`).join('\n');
 
-┌──〔 🤖 AI / Chatbots 〕──
-│ 💡 .ai, .gpt, .gpt4, .bard, .meta
-│ 🧠 .blackbox, .luma, .fluxai, .imagine
+        const fullMenuText = `${header}${fullCmdList}`;
 
-┌──〔 🎌 Anime & Reactions 〕──
-│ 😼 .waifu, .neko, .animequote
-│ 💥 .slap @tag, .kiss @tag, .poke
-
-┌──〔 🎨 Logo & Image Tools 〕──
-│ 🖌 .neonlight <txt>, .devilwings
-│ 🧸 .remini, .removebg, .invert
-
-┌──〔 🎛 Convert / Tools 〕──
-│ 🎚️ .sticker, .tomp3, .tts, .base64
-│ 🧰 .countdown, .calculator, .tinyurl
-
-┌──〔 🎉 Fun / Games 〕──
-│ 🪀 .joke, .meme, .dare, .wyr, .hack
-│ ❤️ .rate <txt>, .pickup, .truth
-
-┌──〔 ⬇️ Downloader 〕──
-│ 🔊 .ytmp3, .play, .spotify
-│ 📹 .ytmp4, .fb, .tiktok, .mediafire
-
-┌──〔 👥 Group Features 〕──
-│ 🚪 .add, .kick, .welcome on/off
-│ 📢 .tagall, .hidetag, .setdesc
-
-┌──〔 🧩 Others / Info 〕──
-│ 🌍 .weather, .wikipedia, .news
-│ 📌 .define, .movie, .currency
-
-┌──〔 👑 Owner & Admins 〕──
-│ 🔐 .ban, .unban, .block, .shutdown
-│ 🚨 .broadcast <msg>, .restart
-
-┌──〔 ⚙️ Main / System 〕──
-│ 📈 .ping, .uptime, .owner, .menu
-│ 🗃️ .support, .allmenu, .listcmd
-╰──────────────────────────────╯`;
-
-        // Fake vCard contact quote
+        // Fake verified vCard
         const quotedContact = {
             key: {
                 fromMe: false,
@@ -88,30 +46,31 @@ async (conn, mek, m, { from, sender, pushname, reply }) => {
             },
             message: {
                 contactMessage: {
-                    displayName: "NEXUS Verified",
-                    vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:NEXUS-XMD\nORG:NEXUS SUPPORT;\nTEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000\nEND:VCARD`,
-                    jpegThumbnail: null
+                    displayName: "NEXUS VERIFIED BOT",
+                    vcard: `BEGIN:VCARD\nVERSION:3.0\nFN:NEXUS-XMD\nORG:NEXUS TECHS;\nTEL;type=CELL;type=VOICE;waid=254700000000:+254 700 000000\nEND:VCARD`
                 }
             }
         };
 
-        // Send menu as captioned image
+        // Send full menu
         await conn.sendMessage(from, {
             image: { url: config.MENU_IMAGE_URL },
-            caption: menuText,
+            caption: fullMenuText,
             contextInfo: commonContextInfo(sender)
         }, { quoted: quotedContact });
 
-        // Send PTT song with context
+        // Send song (PTT)
         await conn.sendMessage(from, {
-            audio: { url: 'https://files.catbox.moe/9eo2q4.mp3' },
-            mimetype: 'audio/mpeg',
+            audio: {
+                url: 'https://files.catbox.moe/9eo2q4.mp3'
+            },
             ptt: true,
+            mimetype: 'audio/mpeg',
             contextInfo: commonContextInfo(sender)
         }, { quoted: quotedContact });
 
-    } catch (err) {
-        console.error(err);
-        reply('❌ *Failed to load menu.*\n' + err.message);
+    } catch (e) {
+        console.error(e);
+        reply(`❌ Error occurred:\n${e.message}`);
     }
 });
