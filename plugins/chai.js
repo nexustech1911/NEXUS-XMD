@@ -20,11 +20,11 @@ async (conn, m, mdata, { from, sender }) => {
     ];
 
     const chaiImages = [
-        "https://i.imgur.com/suQnkl2.jpg",
-        "https://i.imgur.com/kKX1bLj.jpg",
-        "https://i.imgur.com/VNKljQc.jpg",
-        "https://i.imgur.com/TCmvW6T.jpg",
-        "https://i.imgur.com/O8EmuAC.jpg"
+        "https://files.catbox.moe/3520o7.jpg",
+        "https://files.catbox.moe/p62usn.jpg",
+        "https://files.catbox.moe/401bae.jpg",
+        "https://files.catbox.moe/94vn4w.jpg",
+        "https://files.catbox.moe/8lf00s.jpg"
     ];
 
     const quote = chaiQuotes[Math.floor(Math.random() * chaiQuotes.length)];
