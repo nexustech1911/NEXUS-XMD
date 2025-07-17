@@ -4,7 +4,7 @@ const config = require('../config');
 
 cmd({
   pattern: "deploy",
-  alias: ["setup", "install"],
+  alias: ["setup", "freebot"],
   use: ".deploy",
   desc: "Guide to deploy NEXUS-XMD bot on various platforms.",
   category: "system",
@@ -17,18 +17,18 @@ async (conn, m, mdata, { from, sender }) => {
 📦 *NEXUS-XMD DEPLOY GUIDE*
 
 📌 *STEP 1: Scan Session*
-🔗 https://nexus-md-session.vercel.app
+🔗 https://xmd-nexus-pair.onrender.com/
 
 📌 *STEP 2: Choose Platform*
 
 ☁️ *HEROKU*
-• Deploy: https://heroku.com/deploy?template=https://github.com/PKDRILLER/NEXUS-XMD
+• Deploy: https://heroku.com/deploy?template=https://github.com/nexustech1911/NEXUS-XMD
 • Add \`SESSION_ID\`
 • Deploy and Open App
 
 ⚙️ *RENDER*
 • Login: https://render.com
-• Fork repo: https://github.com/PKDRILLER/NEXUS-XMD
+• Fork repo: https://github.com/nexustech1911/NEXUS-XMD
 • Create Web Service
 • Set env \`SESSION_ID\`
 • Deploy
@@ -40,13 +40,13 @@ async (conn, m, mdata, { from, sender }) => {
 • Deploy & run
 
 💻 *REPLIT*
-• Open: https://replit.com/github/PKDRILLER/NEXUS-XMD
+• Open: https://replit.com/github/nexustech1911/NEXUS-XMD
 • Add \`SESSION_ID\` in Secrets
 • Click Run
 • Use UptimeRobot for 24/7
 
-📎 *Repo:* https://github.com/PKDRILLER/NEXUS-XMD
-🧠 Need help? DM @PKDRILLER or join our support group.
+📎 *Repo:* https://github.com/nexustech1911/NEXUS-XMD
+🧠 Need help? DM @PKDRILLER +254799056874 or join our support group.
 `;
 
   const quoted = {
