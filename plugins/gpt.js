@@ -39,8 +39,8 @@ const fakeContact = {
 
 // 🧠 AI Command with Custom Responses
 cmd({
-    pattern: "ai2",
-    alias: ["bot2", "dj2", "gpt2", "gpt2", "bing2"],
+    pattern: "pkai",
+    alias: ["botq", "nex", "gp", "pk", "pkdriller"],
     desc: "Chat with an AI model",
     category: "ai",
     react: "🤖",
@@ -57,25 +57,25 @@ async (conn, mek, m, { from, q, reply, react }) => {
         if (text.includes("time")) {
             answer = `🕐 Current time is: *${moment().tz(config.TIME_ZONE).format("dddd, MMMM Do YYYY, h:mm:ss A")}*`;
         } else if (text.includes("repo") || text.includes("github")) {
-            answer = "📂 *NEXUS-XMD GitHub Repo:*\nhttps://github.com/pkdriller0/NEXUS-XMD";
+            answer = "📂 *NEXUS-XMD GitHub Repo:*\nhttps://github.com/pkdriller2/NEXUS-XMD";
         } else if (text.includes("pkdriller")) {
             answer = "👤 *PKDRILLER* is the lead developer and founder of NEXUS-XMD, known for innovative bot development and customization.";
         } else if (text.includes("today") || text.includes("date")) {
             answer = `📅 Today is: *${moment().tz(config.TIME_ZONE).format("dddd, MMMM Do YYYY")}*`;
         } else if (text.includes("owner")) {
-            answer = "👑 *My owner is @pkdriller0*, a skilled developer behind NEXUS-XMD and NEXUS-AI.";
+            answer = "👑 *My owner is @pkdriller2*, a skilled developer behind NEXUS-XMD.";
         } else if (text.includes("country")) {
             answer = "🌍 I'm based in *Kenya*, developed by African innovation.";
         } else if (text.includes("nexus") && text.includes("more")) {
             answer = "🤖 *NEXUS-XMD* is a powerful WhatsApp bot built for automation, entertainment, group management, AI chat, media downloads, and more. Continuously evolving with new features!";
         } else if (text.includes("support nexus")) {
-            answer = "💖 You can support NEXUS-XMD by sharing it, starring the GitHub repo https://github.com/pkdriller0/NEXUS-XMD, and following https://github.com/pkdriller0. Donations or contributions are welcome!";
+            answer = "💖 You can support NEXUS-XMD by sharing it, starring the GitHub repo, and following @pkdriller2. Donations or contributions are welcome!";
         } else if (text.includes("updates") || text.includes("supportive link")) {
-            answer = "📢 *Stay Updated on NEXUS-XMD:*\n\n📌 GitHub Repo:\nhttps://github.com/pkdriller0/NEXUS-XMD\n📌 Developer Channel:\nhttps://whatsapp.com/channel/0029Vad7YNyJuyA77CtIPX0x\n📌 Support Group:\nhttps://chat.whatsapp.com/CbY7YiuobJ1AlMJ8PviKpm";
+            answer = "📢 *Stay Updated on NEXUS-XMD:*\n\n📌 GitHub Repo:\nhttps://github.com/pkdriller2/NEXUS-XMD\n📌 Developer Channel:\nhttps://whatsapp.com/channel/0029VaFbhkQF3s9WbVQYvK2N\n📌 Support Group:\nhttps://chat.whatsapp.com/IjLSqYjaRwR1zBhVfDgxg5";
         } else if (text.includes("giveaway") && text.includes("can we")) {
             answer = "🎁 *Giveaway?* That's a great idea! We’re planning future events. Stay active in the channel for announcements.";
         } else if (text.includes("why can't") && text.includes("giveaway")) {
-            answer = "🚫 *No giveaway currently* due to no reactions on post which is sign that no one is interested, unsupportive followers and fairness control. But it's on our roadmap!";
+            answer = "🚫 *No giveaway currently* due to limited resources and fairness control. But it's on our roadmap!";
         }
 
         if (answer) {
