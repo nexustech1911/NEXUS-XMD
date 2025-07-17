@@ -1,7 +1,4 @@
 const { cmd } = require('../command');
-const axios = require('axios');
-const fs = require('fs');
-const { getBuffer } = require('../lib/myfunc');
 
 const fakeContact = {
   key: {
@@ -36,7 +33,7 @@ const forwardedContext = {
 cmd({
   pattern: "tea",
   alias: ["teatime", "gossip"],
-  desc: "Get some random AI gossip or hot tea ☕",
+  desc: "Get some random AI gossip or tea ☕",
   category: "fun zone",
   react: "☕",
   filename: __filename
@@ -47,33 +44,26 @@ async (conn, m, { reply, react }) => {
 
     const teaList = [
       "Did you know PK Driller once shut down a spammer with just a .ban? ☠️",
-      "Someone in the group has been secretly stalking your stories... 👀",
-      "The NEXUS-XMD AI is smarter than half of the admins. Facts only. 🧠",
-      "A group member is using a second account. Look closely next time. 🕵️‍♂️",
-      "Someone tried to copy this bot… and failed. 💀",
-      "Rumor says a giveaway is coming soon... stay active 👀",
-      "That moment when the owner reads your message and ignores... ouch 😂",
-      "Someone in this group simps hard for anime girls. You know who. 😹",
-      "PK DRILLER is watching 👁️",
-      "Someone here deletes messages a little too fast... guilty? 😶"
+      "Someone in this group deletes messages faster than light… suspicious 👀",
+      "NEXUS-XMD just hit 1000 active sessions. Dominating the AI scene 🧠",
+      "There’s an undercover bot in this chat. Can you spot it? 🤖",
+      "The quietest group member is secretly watching everything… 🕵️‍♀️",
+      "A giveaway might drop soon — if you stay active! 🎁",
+      "Someone here has a crush on an admin. Not naming names 😹",
+      "PK DRILLER sees your screenshots 👁️",
+      "Someone almost got banned yesterday... stay sharp ⚠️",
+      "The next command you use might expose your secrets 😳"
     ];
 
     const randomTea = teaList[Math.floor(Math.random() * teaList.length)];
 
-    const ttsUrl = `https://api.ryzendesu.vip/api/tts?text=${encodeURIComponent(randomTea)}&lang=en&apikey=beta`;
-    const audioBuffer = await getBuffer(ttsUrl);
-
     await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      ptt: true,
-      mimetype: 'audio/mpeg',
+      text: `☕ *NEXUS-XMD HOT TEA*\n\n${randomTea}`,
       contextInfo: forwardedContext
     }, { quoted: fakeContact });
 
-    await reply(`☕ *NEXUS-XMD Hot Tea:*\n\n${randomTea}`, fakeContact, forwardedContext);
-
   } catch (err) {
     console.error(err);
-    await reply("Something went wrong while brewing the tea ☹️");
+    await reply("Failed to serve the tea. Try again later.");
   }
 });
