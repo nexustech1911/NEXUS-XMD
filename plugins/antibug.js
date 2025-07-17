@@ -2,8 +2,8 @@ const config = require('../config');
 const { cmd } = require('../command');
 
 cmd({
-    pattern: "antibug",
-    alias: ["clearbug", "kickbug", "cleanbug"],
+    pattern: "antibug2",
+    alias: ["clearbug2", "kickbug2", "cleanbug2"],
     use: '.antibug (reply to message)',
     desc: "Clean bug, kick sender (group only), and block",
     category: "utilities",
