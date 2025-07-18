@@ -1,7 +1,5 @@
-const config = require('../config');
 const { cmd } = require('../command');
-const moment = require('moment-timezone');
-const { runtime } = require('../lib/functions');
+const axios = require('axios');
 
 cmd({
     pattern: "deploy",
