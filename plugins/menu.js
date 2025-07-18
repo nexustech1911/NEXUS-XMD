@@ -18,7 +18,7 @@ cmd({
     pattern: "menu",
     desc: "Show complete list of all commands",
     category: "menu",
-    react: "📚",
+    react: "✅",
     filename: __filename
 },
 async (conn, mek, m, { from, sender, reply }) => {
@@ -42,6 +42,9 @@ async (conn, mek, m, { from, sender, reply }) => {
 *│ 📦 Total Commands:* ${totalCommands}
 *╰──────────────────────────────────────╯*
 
+╭───🎯 *REAL-NEXUS COMMANDS* ───
+★├▢ • *listmenu* 
+              
 ╭───🎯 *AI COMMANDS* ───
 ★├▢ • *ai* 
 ★├▢ • *gpt*
