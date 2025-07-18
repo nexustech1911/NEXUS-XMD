@@ -106,7 +106,7 @@ END:VCARD`
       body: 'Step-by-step guide: Heroku, Render, Railway, Replit.',
       mediaType: 1,
       previewType: 'PHOTO',
-      thumbnailUrl: 'https://i.imgur.com/y71HG4s.jpeg',
+      thumbnailUrl: 'https://files.catbox.moe/rfif5n.jpg',
       sourceUrl: 'https://github.com/nexustech1911/NEXUS-XMD'
     }
   };
