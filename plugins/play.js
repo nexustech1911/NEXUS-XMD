@@ -3,8 +3,8 @@ const { ytsearch } = require('@dark-yasiya/yt-dl.js');
 const axios = require("axios");
 
 cmd({
-  pattern: "song",
-  alias: ["play", "ytmp3", "audio", "music"],
+  pattern: "song7",
+  alias: ["play7", "ytmp7", "audio7", "music7"],
   desc: "Download YouTube audio via multiple APIs",
   category: "music",
   use: '.song < title >',
