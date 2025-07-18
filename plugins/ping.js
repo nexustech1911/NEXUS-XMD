@@ -7,7 +7,7 @@ cmd({
     pattern: "ping",
     alias: ["speed", "pong"],
     use: '.ping',
-    desc: "Show cinematic ping test.",
+    desc: "Stylish ping command with animated heartbeat.",
     category: "main",
     react: "⚡",
     filename: __filename
@@ -16,61 +16,53 @@ async (conn, mek, m, { from, sender }) => {
     try {
         const start = new Date().getTime();
 
-        // React to trigger
+        // React with lightning
         await conn.sendMessage(from, {
             react: { text: '⚡', key: mek.key }
         });
 
-        // Phase 1: Send emoji spam animations
-        const frames = ['🟢', '🟡', '🔴', '🟣', '⚪', '⚫', '🟤', '🔵', '🟠'];
-        const msgs = [];
-
+        // Phase 1: Heartbeat animation
+        const hearts = ['💚', '💛', '💜', '❤️', '🧡', '💙'];
         for (let i = 0; i < 5; i++) {
-            const msg = await conn.sendMessage(from, {
-                text: `⚙️ SYSTEM PULSE: ${frames[Math.floor(Math.random() * frames.length)]} ${frames[Math.floor(Math.random() * frames.length)]} ${frames[Math.floor(Math.random() * frames.length)]}`,
-                edit: mek.key
+            await conn.sendMessage(from, {
+                text: `💓 SYSTEM HEARTBEAT: ${hearts[Math.floor(Math.random() * hearts.length)]} ${hearts[Math.floor(Math.random() * hearts.length)]} ${hearts[Math.floor(Math.random() * hearts.length)]}`,
             });
-            msgs.push(msg.key);
-            await new Promise(resolve => setTimeout(resolve, 600)); // 0.6 sec delay
+            await new Promise(res => setTimeout(res, 700));
         }
 
-        // Phase 2: Send hacking simulation
-        const loadingMessages = [
-            '🔍 Breaching firewall...',
-            '💾 Injecting ping protocol...',
-            '📡 Accessing NEXUS core...',
-            '⚙️ Finalizing connection...'
+        // Phase 2: System loading glitch
+        const glitchy = [
+            '⛓️ Gl!tch•Accessing…',
+            '💿 L0ad!ng <protocol>',
+            '📶 [C0nnecting→Server]',
+            '⚡ P1ng•P@ckets↻sync…'
         ];
-
-        for (const line of loadingMessages) {
-            const msg = await conn.sendMessage(from, { text: line });
-            msgs.push(msg.key);
-            await new Promise(resolve => setTimeout(resolve, 700));
+        for (const line of glitchy) {
+            await conn.sendMessage(from, { text: line });
+            await new Promise(res => setTimeout(res, 600));
         }
 
-        // Delete all previous animated messages
-        for (const key of msgs) {
-            await conn.sendMessage(from, { delete: key });
-        }
-
+        // Final result
         const end = new Date().getTime();
         const speed = end - start;
         const time = moment.tz(config.TIME_ZONE).format("hh:mm A");
         const date = moment.tz(config.TIME_ZONE).format("DD MMMM, YYYY");
         const uptime = runtime(process.uptime());
 
-        const text = `
-🎯 *NEXUS-XMD PING STATS*
+        const result = `
+┏━━━━━━⬣
+┃ *🚀 NEXUS-XMD SYSTEM PING*
+┃
+┃ 📶 Speed: *${speed}ms*
+┃ ⏱ Uptime: *${uptime}*
+┃ 🕓 Time: *${time}*
+┃ 📅 Date: *${date}*
+┃
+┃ 🌐 Powered by PK-DRILLER 🌐
+┗━━━━━━⬣
+        `.trim();
 
-📶 *Speed:* _${speed}ms_
-⏳ *Uptime:* _${uptime}_
-🕓 *Time:* _${time}_
-📅 *Date:* _${date}_
-
-⚡ *Powered by NEXUS-AI* ⚡
-`.trim();
-
-        // Fake contact to quote
+        // Fake contact message to quote
         const fakeContact = {
             key: {
                 fromMe: false,
@@ -86,15 +78,15 @@ async (conn, mek, m, { from, sender }) => {
         };
 
         await conn.sendMessage(from, {
-            text,
+            text: result,
             contextInfo: {
                 mentionedJid: [sender],
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363288304618280@newsletter',
-                    newsletterName: "NEXUS-XMD UPDATES",
-                    serverMessageId: 143
+                    newsletterName: "NEXUS-XMD SYSTEM STATUS",
+                    serverMessageId: 666
                 }
             }
         }, { quoted: fakeContact });
