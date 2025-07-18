@@ -67,7 +67,7 @@ ${cmds.map(c => `│• ${c}`).join("\n")}
 ╰━〔 𝙉𝙀𝙓𝙐𝙎-𝙓𝙈𝘿 🔰 〕━⬣`;
 
   // PTT audio path
-  const audioPath = path.join(__dirname, '../media/menu.mp3');
+  const audioPath = path.join(__dirname, 'https://files.catbox.moe/ro7yc2.mp3');
   if (!fs.existsSync(audioPath)) {
     return await m.reply("❌ Menu audio not found: media/menu.mp3");
   }
