@@ -105,8 +105,8 @@ _Reply to this message with 1 or 2 to download._`;
 
 // MP3 song download
 cmd({ 
-    pattern: "song", 
-    alias: ["ytdl3", "play"], 
+    pattern: "song6", 
+    alias: ["ytdl6", "play6"], 
     react: "🎶", 
     desc: "Download YouTube song", 
     category: "main", 
