@@ -13,41 +13,33 @@ cmd({
 },
 async (conn, m, mdata, { from, sender }) => {
 
-  const text = `
-📦 *NEXUS-XMD FREE-DEPLOYMENT GUIDE FOLLOW STEPS BELOW💯*
+  const deployGuide = `
+📦 *NEXUS-XMD FREE DEPLOYMENT GUIDE 💯*
 
-📌 *STEP 1: Scan Session*
+🔐 *STEP 1: SCAN SESSION*
 🔗 https://xmd-nexus-pair.onrender.com/
 
-📌 *STEP 2: Choose Platform*
+🌐 *CHOOSE DEPLOYMENT METHOD:*
 
 ☁️ *HEROKU*
-• Deploy: https://heroku.com/deploy?template=https://github.com/nexustech1911/NEXUS-XMD
-• Add \`SESSION_ID\`
-• Deploy and Open App
+↪ https://heroku.com/deploy?template=https://github.com/nexustech1911/NEXUS-XMD
+→ Add \`SESSION_ID\` → Deploy → Open App
 
 ⚙️ *RENDER*
-• Login: https://render.com
-• Fork repo: https://github.com/nexustech1911/NEXUS-XMD
-• Create Web Service
-• Set env \`SESSION_ID\`
-• Deploy
+↪ https://render.com
+→ Fork: https://github.com/nexustech1911/NEXUS-XMD
+→ Web Service → Add \`SESSION_ID\` → Deploy
 
 🚂 *RAILWAY*
-• Deploy: https://railway.app/template/Wvukql
-• Paste repo
-• Set env \`SESSION_ID\`
-• Deploy & run
+↪ https://railway.app/template/Wvukql
+→ Paste repo → Add \`SESSION_ID\` → Deploy
 
 💻 *REPLIT*
-• Open: https://replit.com/github/nexustech1911/NEXUS-XMD
-• Add \`SESSION_ID\` in Secrets
-• Click Run
-• Use UptimeRobot for 24/7
+↪ https://replit.com/github/nexustech1911/NEXUS-XMD
+→ Secrets: Add \`SESSION_ID\` → Click Run → Use UptimeRobot
 
-📎 *Repo:* https://github.com/nexustech1911/NEXUS-XMD
-🧠 Need help? DM @PKDRILLER +254799056874 or join our support group.
-`;
+📎 *Repo:* https://github.com/nexustech1911/NEXUS-XMD  
+📨 *Support:* wa.me/254799056874`;
 
   const quoted = {
     key: {
@@ -73,16 +65,24 @@ END:VCARD`
     mentionedJid: [sender],
     forwardingScore: 999,
     isForwarded: true,
+    quoted,
+    externalAdReply: {
+      title: "NEXUS-XMD DEPLOY CENTER",
+      body: "Click the links to start free hosting ⚡",
+      mediaType: 1,
+      previewType: "PHOTO",
+      thumbnailUrl: "https://i.imgur.com/y71HG4s.jpeg",
+      sourceUrl: "https://github.com/nexustech1911/NEXUS-XMD"
+    },
     forwardedNewsletterMessageInfo: {
       newsletterJid: "120363288304618280@newsletter",
       newsletterName: "NEXUS-XMD DEPLOY UPDATES",
-      serverMessageId: 110
+      serverMessageId: 111
     }
   };
 
   await conn.sendMessage(from, {
-    text,
-    contextInfo,
-    quoted
-  });
+    text: deployGuide,
+    contextInfo
+  }, { quoted });
 });
