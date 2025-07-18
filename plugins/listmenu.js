@@ -52,7 +52,7 @@ cmd({
       externalAdReply: {
         title: "📖 NEXUS Realtime Command List",
         body: "Auto-generated system list",
-        thumbnailUrl: "https://i.ibb.co/1nWQ4F0/nexusbot.png",
+        thumbnailUrl: "https://files.catbox.moe/eto3yr.jpg",
         mediaType: 1,
         renderLargerThumbnail: true,
         sourceUrl: "https://github.com/nexustech1911/NEXUS-XMD"
