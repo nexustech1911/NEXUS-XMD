@@ -82,6 +82,7 @@ END:VCARD`
 
   await conn.sendMessage(from, {
     text,
-    contextInfo
-  }, { quoted });
+    contextInfo,
+    quoted
+  });
 });
